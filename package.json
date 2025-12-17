@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "ts-laonumspeller": "dist/cli.js"
+    "ts-laonumspeller": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
