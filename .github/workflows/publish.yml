@@ -1,4 +1,4 @@
-name: Publish to NPM and Create Release
+name: Publish to NPM and Create GitHub Release
 on:
   push:
     tags:
@@ -8,42 +8,36 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write      # Required for OIDC authentication with NPM
-      contents: write      # Required for creating GitHub releases
+      id-token: write
+      contents: write
 
     steps:
-      # Step 1: Check out the repository
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js environment
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
-      # Step 3: Synchronize package.json and package-lock.json
       - name: Install Dependencies
         run: |
-          npm install # Regenerate package-lock.json if necessary
+          npm install
 
-      # Step 4: Build the project
       - name: Build Project
         run: npm run build
 
-      # Step 5: Publish to NPM
       - name: Publish to NPM
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # Step 6: Create GitHub Release
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}  # The version tag, e.g., v0.1.10
           release_name: Release ${{ github.ref_name }}
           body: |
             Changelog:
@@ -51,12 +45,5 @@ jobs:
             - Published to NPM using automated workflow.
           draft: false
           prerelease: false
-
-      # Step 7: Upload Build Artifacts to Release (Optional)
-      - name: Upload Build Artifacts
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/output.zip  # Adjust based on your build artifacts' path
-          asset_name: output.zip
-          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
