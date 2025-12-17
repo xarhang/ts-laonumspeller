@@ -8,7 +8,7 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write # Required for Trusted Publishing
+      id-token: write
       contents: read
     steps:
       - uses: actions/checkout@v4
@@ -17,12 +17,9 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
           
-      - name: Update npm 
-        run: npm install -g npm@latest # Required for OIDC support
-        
       - run: npm install
       - run: npm run build
       
       - name: Publish to npm
-        # No --provenance flag needed; Trusted Publishing does it automatically!
         run: npm publish --access public
+        # Notice: env: NODE_AUTH_TOKEN is REMOVED. OIDC handles it.
