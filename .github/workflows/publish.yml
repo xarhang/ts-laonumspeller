@@ -8,8 +8,8 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write  # Ensure this is set to "write" for NPM provenance generation
-      contents: read
+      id-token: write   # Required for Trusted Publishing
+      contents: write    # Changed to write so we can create a Release
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,6 +26,11 @@ jobs:
           npm run build
 
       - name: Publish to NPM
+        # REMOVED the secret token. OIDC handles it automatically.
         run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        # This will turn your Tag into a real "Release" automatically
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
