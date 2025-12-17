@@ -1,8 +1,8 @@
 {
   "name": "ts-laonumspeller",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "type": "module",
-  "description": "Convert numbers to Lao words",
+  "description": "git ",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
