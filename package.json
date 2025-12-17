@@ -1,0 +1,23 @@
+{
+  "name": "ts-laonumspeller",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Convert numbers to Lao words",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "ts-laonumspeller": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node --loader ts-node/esm src/cli.ts",
+    "clean": "rm -rf dist"
+  },
+  "author": "xarhang",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.0"
+  }
+}
