@@ -2,27 +2,27 @@ name: Publish to npm
 on:
   push:
     tags:
-      - 'v*' # This triggers the publish ONLY when you push a tag (e.g., v0.1.2)
+      - 'v*'
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-    # These permissions are required for Trusted Publishing (OIDC)
     permissions:
-      id-token: write
+      id-token: write # Required for Trusted Publishing
       contents: read
-      
     steps:
       - uses: actions/checkout@v4
-      
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-
+          
+      - name: Update npm 
+        run: npm install -g npm@latest # Required for OIDC support
+        
       - run: npm install
       - run: npm run build
       
-      # This command connects to npm using the Trust relationship you built
       - name: Publish to npm
-        run: npm publish --access public --provenance
+        # No --provenance flag needed; Trusted Publishing does it automatically!
+        run: npm publish --access public
