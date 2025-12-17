@@ -1,6 +1,6 @@
 {
   "name": "ts-laonumspeller",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "type": "module",
   "description": "git ",
   "main": "dist/index.js",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/xarhang/ts-laonumspeller.git"
+    "url": "git+https://github.com/xarhang/ts-laonumspeller.git"
   },
   "publishConfig": {
     "access": "public",
